@@ -8,9 +8,6 @@ import qualified Data.Vector
 import Data.List (zip5, unzip5)
 
 import Test.QuickCheck
-import Test.Framework.Providers.QuickCheck2
-
-import Test.Framework
 
 import Text.Show.Functions ()
 import System.Random       (Random)
@@ -24,13 +21,13 @@ import System.Random       (Random)
 #define VECTOR_CONTEXT(a, v) \
   Eq (v a), Show (v a), Arbitrary (v a), CoArbitrary (v a), TestData (v a), Model (v a) ~ [a],  EqTest (v a) ~ Property, V.Vector v a
 
-testTuplyFunctions :: forall a v. (COMMON_CONTEXT(a, v), VECTOR_CONTEXT((a, a), v), VECTOR_CONTEXT((a, a, a), v), VECTOR_CONTEXT((a,a,a,a,a), v))
-                   => v a -> [Test]
-testTuplyFunctions _ = [ testProperty "prop_zip" prop_zip
-                       -- testProperty "prop_zip3" prop_zip3
-                       -- testProperty "prop_zip5" prop_zip5
-                       --  testProperty "prop_unzip" prop_unzip
-                       --  testProperty "prop_unzip3" prop_unzip3
+testTuplyFunctions :: forall a v. (v ~ Data.Vector.Vector, COMMON_CONTEXT(a, v), VECTOR_CONTEXT((a, a), v), VECTOR_CONTEXT((a, a, a), v), VECTOR_CONTEXT((a,a,a,a,a), v))
+                   => v a -> [Property]
+testTuplyFunctions _ = [ property prop_zip
+                       -- , property prop_zip3
+                       -- , property prop_zip5
+                       -- , property prop_unzip
+                       -- , property prop_unzip3
                        ]
   where
     prop_zip    :: P (v a -> v a -> v (a, a))           = V.zip `eq` zip
@@ -40,15 +37,15 @@ testTuplyFunctions _ = [ testProperty "prop_zip" prop_zip
     prop_unzip3 :: P (v (a, a, a) -> (v a, v a, v a))   = V.unzip3 `eq` unzip3
     prop_unzip5 :: P (v (a, a, a, a, a) -> (v a, v a, v a, v a, v a))   = V.unzip5 `eq` unzip5
 
-testGeneralBoxedVector :: forall a. (COMMON_CONTEXT(a, Data.Vector.Vector), Ord a) => Data.Vector.Vector a -> [Test]
+testGeneralBoxedVector :: forall a. (COMMON_CONTEXT(a, Data.Vector.Vector), Ord a) => Data.Vector.Vector a -> [Property]
 testGeneralBoxedVector dummy = concatMap ($ dummy) [testTuplyFunctions]
 
 testBoolBoxedVector dummy = concatMap ($ dummy) [testGeneralBoxedVector]
 
-testNumericBoxedVector :: forall a. (COMMON_CONTEXT(a, Data.Vector.Vector), Ord a, Num a, Enum a, Random a) => Data.Vector.Vector a -> [Test]
+testNumericBoxedVector :: forall a. (COMMON_CONTEXT(a, Data.Vector.Vector), Ord a, Num a, Enum a, Random a) => Data.Vector.Vector a -> [Property]
 testNumericBoxedVector dummy = concatMap ($ dummy) [testGeneralBoxedVector]
 
 
-test1 = testGroup "Data.Vector.Vector (Bool)"           (testBoolBoxedVector      (undefined :: Data.Vector.Vector Bool)) -- 5 seconds
-test2 = testGroup "Data.Vector.Vector (Int)"            (testNumericBoxedVector   (undefined :: Data.Vector.Vector Int)) -- 4.5 seconds
+test1 = testBoolBoxedVector      (undefined :: Data.Vector.Vector Bool) -- 5 seconds
+test2 = testNumericBoxedVector   (undefined :: Data.Vector.Vector Int) -- 4.5 seconds
 
