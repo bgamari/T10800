@@ -1,5 +1,5 @@
 {-# LANGUAGE CPP, RankNTypes, TemplateHaskell, ScopedTypeVariables, TypeFamilies, FlexibleContexts #-}
-module Tests.Vector (tests) where
+module Tests.Vector (test1, test2) where
 
 import Boilerplater
 import Utilities as Util
@@ -121,12 +121,6 @@ testTupleUnboxedVector dummy = concatMap ($ dummy)
     testGeneralUnboxedVector
   ]
 
-tests = [
-        testGroup "Data.Vector.Vector (Bool)"           (testBoolBoxedVector      (undefined :: Data.Vector.Vector Bool)),
-        testGroup "Data.Vector.Vector (Int)"            (testNumericBoxedVector   (undefined :: Data.Vector.Vector Int)),
-
-        testGroup "Data.Vector.Unboxed.Vector (Int,Bool)" (testTupleUnboxedVector (undefined :: Data.Vector.Unboxed.Vector (Int,Bool))),
-        testGroup "Data.Vector.Unboxed.Vector (Int,Bool,Int)" (testTupleUnboxedVector (undefined :: Data.Vector.Unboxed.Vector (Int,Bool,Int)))
-
-    ]
+test1 = testGroup "Data.Vector.Vector (Bool)"           (testBoolBoxedVector      (undefined :: Data.Vector.Vector Bool)) -- 5 seconds
+test2 = testGroup "Data.Vector.Vector (Int)"            (testNumericBoxedVector   (undefined :: Data.Vector.Vector Int)) -- 4.5 seconds
 
