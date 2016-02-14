@@ -179,6 +179,14 @@ instance (Eq a, Eq b, Eq c, TestData a, TestData b, TestData c) => TestData (a,b
   type EqTest (a,b,c) = Property
   equal x y = property (x == y)
 
+instance (Eq a, Eq b, Eq c, Eq d, Eq e, TestData a, TestData b, TestData c, TestData d, TestData e) => TestData (a,b,c,d,e) where
+  type Model (a,b,c,d,e) = (Model a, Model b, Model c, Model d, Model e)
+  model (a,b,c,d,e) = (model a, model b, model c, model d, model e)
+  unmodel (a,b,c,d,e) = (unmodel a, unmodel b, unmodel c, unmodel d, unmodel e)
+
+  type EqTest (a,b,c,d,e) = Property
+  equal x y = property (x == y)
+
 instance (Arbitrary a, Show a, TestData a, TestData b) => TestData (a -> b) where
   type Model (a -> b) = Model a -> Model b
   model f = model . f . unmodel
