@@ -8,6 +8,9 @@ run() {
     time ghc Test.hs -O
     touch Test.hs
     /usr/bin/time -o time-$ver ghc Test.hs -O -dshow-passes > ghc-$ver.log 2>&1
+    touch Test.hs
+    ghc Test.hs -O -dshow-passes -ddump-simpl -ddump-to-file
+    rename s/Test./Test-$ver./ Test.dump-*
 }
 
 run 7.8.4
