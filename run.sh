@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+source ~/.bashrc
+
 use_component ghc 7.8.4
 time ghc Test.hs -O
 touch Test.hs
