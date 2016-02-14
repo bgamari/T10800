@@ -107,40 +107,6 @@ testNumericBoxedVector dummy = concatMap ($ dummy)
   ]
 
 
-testGeneralPrimitiveVector :: forall a. (COMMON_CONTEXT(a, Data.Vector.Primitive.Vector), Data.Vector.Primitive.Prim a, Ord a) => Data.Vector.Primitive.Vector a -> [Test]
-testGeneralPrimitiveVector dummy = concatMap ($ dummy) [
-        testSanity,
-        testPolymorphicFunctions,
-        testOrdFunctions,
-        testMonoidFunctions
-    ]
-
-testNumericPrimitiveVector :: forall a. (COMMON_CONTEXT(a, Data.Vector.Primitive.Vector), Data.Vector.Primitive.Prim a, Ord a, Num a, Enum a, Random a) => Data.Vector.Primitive.Vector a -> [Test]
-testNumericPrimitiveVector dummy = concatMap ($ dummy)
- [
-   testGeneralPrimitiveVector
- , testNumFunctions
- , testEnumFunctions
- ]
-
-
-testGeneralStorableVector :: forall a. (COMMON_CONTEXT(a, Data.Vector.Storable.Vector), Data.Vector.Storable.Storable a, Ord a) => Data.Vector.Storable.Vector a -> [Test]
-testGeneralStorableVector dummy = concatMap ($ dummy) [
-        testSanity,
-        testPolymorphicFunctions,
-        testOrdFunctions,
-        testMonoidFunctions
-    ]
-
-testNumericStorableVector :: forall a. (COMMON_CONTEXT(a, Data.Vector.Storable.Vector), Data.Vector.Storable.Storable a, Ord a, Num a, Enum a, Random a) => Data.Vector.Storable.Vector a -> [Test]
-testNumericStorableVector dummy = concatMap ($ dummy)
-  [
-    testGeneralStorableVector
-  , testNumFunctions
-  , testEnumFunctions
-  ]
-
-
 testGeneralUnboxedVector :: forall a. (COMMON_CONTEXT(a, Data.Vector.Unboxed.Vector), Data.Vector.Unboxed.Unbox a, Ord a) => Data.Vector.Unboxed.Vector a -> [Test]
 testGeneralUnboxedVector dummy = concatMap ($ dummy) [
         testSanity,
@@ -148,25 +114,6 @@ testGeneralUnboxedVector dummy = concatMap ($ dummy) [
         testOrdFunctions,
         testMonoidFunctions
     ]
-
-testUnitUnboxedVector dummy = concatMap ($ dummy)
-  [
-    testGeneralUnboxedVector
-  ]
-
-testBoolUnboxedVector dummy = concatMap ($ dummy)
-  [
-    testGeneralUnboxedVector
-  , testBoolFunctions
-  ]
-
-testNumericUnboxedVector :: forall a. (COMMON_CONTEXT(a, Data.Vector.Unboxed.Vector), Data.Vector.Unboxed.Unbox a, Ord a, Num a, Enum a, Random a) => Data.Vector.Unboxed.Vector a -> [Test]
-testNumericUnboxedVector dummy = concatMap ($ dummy)
-  [
-    testGeneralUnboxedVector
-  , testNumFunctions
-  , testEnumFunctions
-  ]
 
 testTupleUnboxedVector :: forall a. (COMMON_CONTEXT(a, Data.Vector.Unboxed.Vector), Data.Vector.Unboxed.Unbox a, Ord a) => Data.Vector.Unboxed.Vector a -> [Test]
 testTupleUnboxedVector dummy = concatMap ($ dummy)
