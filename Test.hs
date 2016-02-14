@@ -1,13 +1,13 @@
-{-# LANGUAGE CPP, RankNTypes, TemplateHaskell, ScopedTypeVariables, TypeFamilies, FlexibleContexts #-}
+{-# LANGUAGE CPP, RankNTypes, ScopedTypeVariables, TypeFamilies, FlexibleContexts #-}
 module Tests.Vector (test1, test2) where
 
-import Boilerplater
 import Utilities as Util
 
 import qualified Data.Vector.Generic as V
 import qualified Data.Vector
 
 import Test.QuickCheck
+import Test.Framework.Providers.QuickCheck2
 
 import Test.Framework
 
@@ -24,7 +24,11 @@ import System.Random       (Random)
   Eq (v a), Show (v a), Arbitrary (v a), CoArbitrary (v a), TestData (v a), Model (v a) ~ [a],  EqTest (v a) ~ Property, V.Vector v a
 
 testTuplyFunctions:: forall a v. (COMMON_CONTEXT(a, v), VECTOR_CONTEXT((a, a), v), VECTOR_CONTEXT((a, a, a), v)) => v a -> [Test]
-testTuplyFunctions _ = $(testProperties ['prop_zip, 'prop_zip3, 'prop_unzip, 'prop_unzip3])
+testTuplyFunctions _ = [ testProperty "prop_zip" prop_zip
+                       , testProperty "prop_zip3" prop_zip3
+                       , testProperty "prop_unzip" prop_unzip
+                       , testProperty "prop_unzip3" prop_unzip3
+                       ]
   where
     prop_zip    :: P (v a -> v a -> v (a, a))           = V.zip `eq` zip
     prop_zip3   :: P (v a -> v a -> v a -> v (a, a, a)) = V.zip3 `eq` zip3
