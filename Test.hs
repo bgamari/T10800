@@ -26,9 +26,9 @@ import System.Random       (Random)
 
 testTuplyFunctions :: forall a v. (COMMON_CONTEXT(a, v), VECTOR_CONTEXT((a, a), v), VECTOR_CONTEXT((a, a, a), v), VECTOR_CONTEXT((a,a,a,a,a), v))
                    => v a -> [Test]
-testTuplyFunctions _ = [ --testProperty "prop_zip" prop_zip
+testTuplyFunctions _ = [ testProperty "prop_zip" prop_zip
                        -- testProperty "prop_zip3" prop_zip3
-                        testProperty "prop_zip5" prop_zip5
+                       -- testProperty "prop_zip5" prop_zip5
                        --  testProperty "prop_unzip" prop_unzip
                        --  testProperty "prop_unzip3" prop_unzip3
                        ]
