@@ -6,24 +6,13 @@ import Utilities as Util
 
 import qualified Data.Vector.Generic as V
 import qualified Data.Vector
-import qualified Data.Vector.Primitive
-import qualified Data.Vector.Storable
-import qualified Data.Vector.Unboxed
-import qualified Data.Vector.Fusion.Bundle as S
 
 import Test.QuickCheck
 
 import Test.Framework
-import Test.Framework.Providers.QuickCheck2
 
 import Text.Show.Functions ()
-import Data.List
-import Data.Monoid
-import qualified Control.Applicative as Applicative
 import System.Random       (Random)
-
-import Data.Functor.Identity
-import Control.Monad.Trans.Writer
 
 #define COMMON_CONTEXT(a, v) \
  VANILLA_CONTEXT(a, v), VECTOR_CONTEXT(a, v)
