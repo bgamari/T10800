@@ -1,5 +1,5 @@
 {-# LANGUAGE CPP, RankNTypes, ScopedTypeVariables, TypeFamilies, FlexibleContexts #-}
-module Tests.Vector (test1, test2) where
+module Tests.Vector (test1) where
 
 import Utilities as Util
 
@@ -42,10 +42,9 @@ testGeneralBoxedVector dummy = concatMap ($ dummy) [testTuplyFunctions]
 
 testBoolBoxedVector dummy = concatMap ($ dummy) [testGeneralBoxedVector]
 
-testNumericBoxedVector :: forall a. (COMMON_CONTEXT(a, Data.Vector.Vector), Ord a, Num a, Enum a, Random a) => Data.Vector.Vector a -> [Property]
-testNumericBoxedVector dummy = concatMap ($ dummy) [testGeneralBoxedVector]
+--testNumericBoxedVector :: forall a. (COMMON_CONTEXT(a, Data.Vector.Vector), Ord a, Num a, Enum a, Random a) => Data.Vector.Vector a -> [Property]
+--testNumericBoxedVector dummy = concatMap ($ dummy) [testGeneralBoxedVector]
 
 
 test1 = testBoolBoxedVector      (undefined :: Data.Vector.Vector Bool) -- 5 seconds
-test2 = testNumericBoxedVector   (undefined :: Data.Vector.Vector Int) -- 4.5 seconds
-
+--test2 = testNumericBoxedVector   (undefined :: Data.Vector.Vector Int) -- 4.5 seconds
